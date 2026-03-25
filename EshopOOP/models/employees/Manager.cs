@@ -12,6 +12,7 @@ namespace EshopOOP.models.employees
         public byte Subordinates { get; private set; } // počet podřízených
         public TrueFactor HasCar {  get; set; }
 
+        // TODO: Vylepšit zápisy konstruktorů
         public Manager(int id, EmployeeType employeeType, string name, Department department, float workload,
             uint bonus, byte subordinates, TrueFactor hasCar) : base(id, employeeType, name, department, workload)
         {

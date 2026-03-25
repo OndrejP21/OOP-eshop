@@ -16,6 +16,7 @@ namespace EshopOOP.models
         public uint? Salary { get; private set; } = null;
         public float Workload { get; private set; }
 
+        // TODO: Vylepšit zápisy konstruktorů
         public Employee(int id, EmployeeType employeeType, string name, Department department, DateTime startDate, 
             uint salary, float workload)
         {

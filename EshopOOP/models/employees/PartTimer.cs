@@ -10,6 +10,7 @@ namespace EshopOOP.models.employees
         public ushort MoneyForHour { get; private set; }
         public ushort Hours {  get; private set; }
 
+        // TODO: Vylepšit zápisy konstruktorů
         public PartTimer(int id, EmployeeType employeeType, string name, Department department, float workload, 
             ushort moneyForHour, ushort hours) : base(id, employeeType, name, department, workload)
         {
