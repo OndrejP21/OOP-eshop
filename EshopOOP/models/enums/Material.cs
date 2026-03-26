@@ -9,6 +9,6 @@ namespace EshopOOP.models.enums
         Bavlna,
         Polyester,
         Elastan,
-        Bambus,
+        Bambus
     }
 }

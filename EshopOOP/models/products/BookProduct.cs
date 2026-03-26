@@ -10,8 +10,8 @@ namespace EshopOOP.models.products
         public string Author { get; private set; }
         public ushort Pages { get; private set; }
 
-        public BookProduct(int id, ProductType type, string name, uint price, ushort instock, byte dph, 
-            string author, ushort pages) : base(id, type, name, price, instock, dph)
+        public BookProduct(int id, ProductType type, string name, uint price, ushort instocks, byte dph, 
+            string author, ushort pages) : base(id, type, name, price, instocks, dph)
         {
             Author = author;
             Pages = pages;

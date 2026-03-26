@@ -8,6 +8,6 @@ namespace EshopOOP.models.enums
     {
         Zamestnanec,
         Brigadnik,
-        Manazer
+        Manazer,
     }
 }
