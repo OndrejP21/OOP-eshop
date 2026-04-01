@@ -7,6 +7,7 @@ namespace EshopOOP.models
 {
     public class Employee
     {
+
         public int Id { get; private set; }
         public EmployeeType EmployeeType { get; private set; }
         public string Name { get; private set; }
@@ -15,6 +16,7 @@ namespace EshopOOP.models
         public uint? Salary { get; private set; } = null;
         public float Workload { get; private set; }
 
+        // První konstruktor nejvíce obecný => obsahuje všechna nastavení => do něj odkazujeme zbytek konstruktorů
         public Employee(int id, EmployeeType employeeType, string name, Department department, DateTime startDate, 
             uint? salary, float workload)
         {
@@ -32,12 +34,13 @@ namespace EshopOOP.models
         {
         }
 
-        public Employee(int id, EmployeeType employeeType, string name, Department department, uint salary, float workload) : 
-            this(id, employeeType, name, department, DateTime.Now, salary, workload)
+        public Employee(int id, EmployeeType employeeType, string name, Department department, uint salary, float workload) : this(id, employeeType, 
+            name, department, DateTime.Now, salary, workload)
         {
         }
-        public Employee(int id, EmployeeType employeeType, string name, Department department, float workload) :
-            this(id, employeeType, name, department, DateTime.Now, null, workload)
+
+        public Employee(int id, EmployeeType employeeType, string name, Department department, float workload) : this(id, employeeType, name, department, 
+            DateTime.Now, null, workload)
         {
         }
     }

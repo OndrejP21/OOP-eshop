@@ -11,20 +11,22 @@ namespace EshopOOP.models.products
         public string Size { get; private set; }
         public Material[] Materials { get; private set; }
 
-        public ClothesProduct(int id, ProductType type, string name, uint price, ushort instocks, byte dph, 
-            string size, Material[] materials) : base(id, type, name, price, instocks, dph)
+        public ClothesProduct(int id, ProductType type, string name, uint price, ushort instock, byte dph,
+            string size, Material[] materials) : base(id, type, name, price, instock, dph)
         {
             Size = size;
             Materials = materials;
         }
 
-        public ClothesProduct(int id, ProductType type, string name, uint price, ushort instocks, byte dph,
-    string size, List<Material> materials) : this(id, type, name, price, instocks, dph, size, materials.ToArray())
+        public ClothesProduct(int id, ProductType type, string name, uint price, ushort instock, byte dph,
+            string size, List<Material> materials) : this(id, type, name, price, instock, dph, size, materials.ToArray())
         {
+            /*Size = size;
+            Materials = materials.ToArray();*/
         }
 
-        public ClothesProduct(int id, ProductType type, string name, uint price, ushort instocks, byte dph,
-string size, Material material) : this(id, type, name, price, instocks, dph, size, new Material[] { material })
+        public ClothesProduct(int id, ProductType type, string name, uint price, ushort instock, byte dph,
+            string size, Material material) : this(id, type, name, price, instock, dph, size, new Material[] {material})
         {
         }
     }
