@@ -17,29 +17,43 @@ namespace EshopOOP.utils
 
             // Neřešíme tryparse, protože soubor bude vždy platný
             int id = int.Parse(productData[0]);
-            ProductType type = (ProductType) Enum.Parse(typeof(ProductType), productData[1]);
+            ProductType type = Enum.Parse<ProductType>(productData[1]);
             string name = productData[2];
             uint price = uint.Parse(productData[3]);
             ushort inStock = ushort.Parse(productData[4]);
             byte dph = byte.Parse(productData[5]);
             string warranty = productData[6];
+            string bio = productData[9];
             string v = productData[10];
+            string expiration = productData[11];
+            string size = productData[12];
 
             // Kontrola, zda se jedná o elektro product
             if (!string.IsNullOrWhiteSpace(warranty))
             {
                 return new ElectroProduct(id, type, name, price, inStock, dph, 
                     byte.Parse(warranty), uint.Parse(productData[7]), uint.Parse(productData[8]));
+                // Kosmetika (musí obsahovat objem)
             } else if (!string.IsNullOrWhiteSpace(v))
             {
                 return new CosmeticsProduct(id, type, name, price, inStock, dph,
-                    ParseTrueFactor(productData[9]), 
-                    ushort.Parse(v), ushort.Parse(productData[11]));
+                    ParseTrueFactor(bio), 
+                    ushort.Parse(v), ushort.Parse(expiration));
+                // Potravina (nesmí obsahovat objem, ale musí obsahovat bio)
+            } else if (!string.IsNullOrWhiteSpace(bio) /* kontrolujeme předchozím ifem: && string.IsNullOrWhiteSpace(v)*/)
+            {
+                return new FoodProduct(id, type, name, price, inStock, dph, 
+                    ParseTrueFactor(bio), ushort.Parse(expiration));
+            } else if (!string.IsNullOrWhiteSpace(size))
+            {
+                string materialsString = productData[13];
+                return new ClothesProduct(id, type, name, price, inStock, dph, size, );
             }
         }
 
         private static TrueFactor ParseTrueFactor(string enumAsString)
         {
+            // Druhá možnost přetypování bez generického typu v <>
             return (TrueFactor) Enum.Parse(typeof(TrueFactor), enumAsString);
         }
 
