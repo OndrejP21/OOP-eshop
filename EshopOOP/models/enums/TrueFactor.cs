@@ -6,7 +6,7 @@ namespace EshopOOP.models.enums
 {
     public enum TrueFactor
     {
-        Ano,
-        Ne,
+        ano,
+        ne,
     }
 }
