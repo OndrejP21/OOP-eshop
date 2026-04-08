@@ -43,5 +43,10 @@ namespace EshopOOP.models
             DateTime.Now, null, workload)
         {
         }
+
+        public override string ToString()
+        {
+            return $"{Name} {EmployeeType} ({Department}) – {StartDate.ToShortDateString()}";
+        }
     }
 }

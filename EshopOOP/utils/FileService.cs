@@ -1,9 +1,11 @@
 ﻿using EshopOOP.models;
+using EshopOOP.models.employees;
 using EshopOOP.models.enums;
 using EshopOOP.models.products;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Text;
 
 namespace EshopOOP.utils
@@ -67,13 +69,45 @@ namespace EshopOOP.utils
                     productData[14], ushort.Parse(productData[15]));
         }
 
+        private static Employee CreateEmployeeObject(string line)
+        {
+            string[] productData = line.Split(';');
+
+            // Předpokládáme, že soubor je validní => proto nepoužíváme tryParse
+            int id = int.Parse(productData[0]);
+            EmployeeType type = Enum.Parse<EmployeeType>(productData[1]);
+            string name = productData[2];
+            Department department = Enum.Parse<Department>(productData[3]);
+            DateTime date = DateTime.Parse(productData[4]); // ze souboru přichází datum ve formátu: DD.MM.RRRR
+            string salaryAsString = productData[5];
+            uint? salary = string.IsNullOrWhiteSpace(salaryAsString) ? null : uint.Parse(salaryAsString);
+            float workload = float.Parse(productData[6], new CultureInfo("en-US"));
+
+            string moneyPerHour = productData[7];
+            string bonus = productData[9];
+
+            // TODO: Přidat konstruktory přijjímací obecného zaměstnance místo hodnot
+            if (!string.IsNullOrWhiteSpace(moneyPerHour)) {
+                return new PartTimer(id, type, name, department, date, salary, workload,
+                    ushort.Parse(moneyPerHour), ushort.Parse(productData[8]));
+            }
+
+            if (!string.IsNullOrWhiteSpace(bonus))
+            {
+                return new Manager(id, type, name, department, date, salary, workload, 
+                    uint.Parse(bonus), byte.Parse(productData[10]), ParseTrueFactor(productData[11]));
+            }
+
+            return new Employee(id, type, name, department, date, salary, workload);
+        }
+
         private static TrueFactor ParseTrueFactor(string enumAsString)
         {
             // Druhá možnost přetypování bez generického typu v <>
             return (TrueFactor) Enum.Parse(typeof(TrueFactor), enumAsString);
         }
 
-        private static string[] ReadLines(string filePath)
+        public static object[] ReadLines(string filePath)
         {
             List<object> objects = new();
             bool isFirst = true;
@@ -100,15 +134,16 @@ namespace EshopOOP.utils
                     switch (fileType)
                     {
                         case FileType.ProductFile:
-
+                            objects.Add(CreateProductObject(line));
                             break;
                         case FileType.EmployeeFile:
+                            objects.Add(CreateEmployeeObject(line));
                             break;
                     }
                 }
             }
 
-            return [];
+            return objects.ToArray();
         }
 
         private static FileType? GetFileType(string firstLine)

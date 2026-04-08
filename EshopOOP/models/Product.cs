@@ -23,5 +23,10 @@ namespace EshopOOP.models
             Instocks = instocks;
             Dph = dph;
         }
+
+        public override string ToString()
+        {
+            return $"{Type} {Name} {Price} Kč (Skladem: {Instocks}, DPH: {Dph})";
+        }
     }
 }
