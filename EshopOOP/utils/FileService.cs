@@ -28,27 +28,43 @@ namespace EshopOOP.utils
             string expiration = productData[11];
             string size = productData[12];
 
+            // TODO: Připravit u produktů nové konstruktory, které přijímají obecný produkt
             // Kontrola, zda se jedná o elektro product
             if (!string.IsNullOrWhiteSpace(warranty))
             {
                 return new ElectroProduct(id, type, name, price, inStock, dph, 
                     byte.Parse(warranty), uint.Parse(productData[7]), uint.Parse(productData[8]));
                 // Kosmetika (musí obsahovat objem)
-            } else if (!string.IsNullOrWhiteSpace(v))
+            }
+            
+            if (!string.IsNullOrWhiteSpace(v))
             {
                 return new CosmeticsProduct(id, type, name, price, inStock, dph,
                     ParseTrueFactor(bio), 
                     ushort.Parse(v), ushort.Parse(expiration));
                 // Potravina (nesmí obsahovat objem, ale musí obsahovat bio)
-            } else if (!string.IsNullOrWhiteSpace(bio) /* kontrolujeme předchozím ifem: && string.IsNullOrWhiteSpace(v)*/)
+            }
+            
+            if (!string.IsNullOrWhiteSpace(bio) /* kontrolujeme předchozím ifem: && string.IsNullOrWhiteSpace(v)*/)
             {
                 return new FoodProduct(id, type, name, price, inStock, dph, 
                     ParseTrueFactor(bio), ushort.Parse(expiration));
-            } else if (!string.IsNullOrWhiteSpace(size))
-            {
-                string materialsString = productData[13];
-                return new ClothesProduct(id, type, name, price, inStock, dph, size, );
             }
+            
+            if (!string.IsNullOrWhiteSpace(size))
+            {
+                string[] materialsString = productData[13].Split('/');
+
+                List<Material> materials = new List<Material>();
+                foreach (string material in materialsString) {
+                    materials.Add(Enum.Parse<Material>(material));
+                }
+
+                return new ClothesProduct(id, type, name, price, inStock, dph, size, materials);
+            }
+
+            return new BookProduct(id, type, name, price, inStock, dph,
+                    productData[14], ushort.Parse(productData[15]));
         }
 
         private static TrueFactor ParseTrueFactor(string enumAsString)
