@@ -1,10 +1,11 @@
-﻿namespace EshopOOP
+﻿using EshopOOP.utils;
+
+namespace EshopOOP
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            
         }
     }
 }
